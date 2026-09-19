@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../services/auth";
+import { auth, loginWithGoogle } from "../services/auth";
 
 function Login() {
     const navigate = useNavigate();
@@ -25,6 +25,15 @@ function Login() {
             navigate("/tasks");
         } catch (error) {
             setError("El email o la contraseña son incorrectos.");
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            await loginWithGoogle();
+            navigate("/tasks");
+        } catch (error) {
+            setError("No se pudo iniciar sesión con Google.");
         }
     };
 
@@ -88,6 +97,14 @@ function Login() {
                             className="auth-button"
                         >
                             Iniciar sesión
+                        </button>
+                        <button
+                            type="button"
+                            className="google-button"
+                            onClick={handleGoogleLogin}
+                        >
+                            <span className="google-icon">G</span>
+                            Continuar con Google
                         </button>
                     </form>
 

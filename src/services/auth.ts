@@ -2,11 +2,15 @@ import {
     getAuth,
     signOut,
     deleteUser,
+    GoogleAuthProvider,
+    signInWithPopup,
 } from "firebase/auth";
 
 import app from "./firebase";
 
 export const auth = getAuth(app);
+
+const googleProvider = new GoogleAuthProvider();
 
 export const logout = () => signOut(auth);
 
@@ -16,4 +20,8 @@ export const deleteAccount = () => {
     }
 
     return deleteUser(auth.currentUser);
+};
+
+export const loginWithGoogle = () => {
+    return signInWithPopup(auth, googleProvider);
 };

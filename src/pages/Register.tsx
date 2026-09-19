@@ -4,7 +4,7 @@ import {
     createUserWithEmailAndPassword,
     updateProfile,
 } from "firebase/auth";
-import { auth } from "../services/auth";
+import { auth, loginWithGoogle } from "../services/auth";
 
 function Register() {
     const navigate = useNavigate();
@@ -40,6 +40,15 @@ function Register() {
             navigate("/tasks");
         } catch (error) {
             setError("No se pudo crear la cuenta.");
+        }
+    };
+
+    const handleGoogleRegister = async () => {
+        try {
+            await loginWithGoogle();
+            navigate("/tasks");
+        } catch (error) {
+            setError("No se pudo crear la cuenta con Google.");
         }
     };
 
@@ -137,6 +146,14 @@ function Register() {
                             className="auth-button"
                         >
                             Crear cuenta
+                        </button>
+                        <button
+                            type="button"
+                            className="google-button"
+                            onClick={handleGoogleRegister}
+                        >
+                            <span className="google-icon">G</span>
+                            Continuar con Google
                         </button>
                     </form>
 
