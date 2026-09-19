@@ -360,7 +360,14 @@ function Tasks() {
                 {/* PERFIL */}
                 <aside className="user-panel">
                     <div className="user-avatar">
-                        👤
+                        {user?.photoURL ? (
+                            <img
+                                src={user.photoURL}
+                                alt={user.displayName || "Usuario"}
+                            />
+                        ) : (
+                            "👤"
+                        )}
                     </div>
                     <h2>Hola, {user?.displayName}!</h2>
                     <p className="user-email">
