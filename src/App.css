@@ -271,27 +271,12 @@
     color: #1db954;
 }
 
-
-/* =========================================================
-   TASKS
-   ========================================================= */
-
-
-/* =========================
-   TASKS - MOBILE
-   ========================= */
-
 .tasks-page {
     min-height: 100vh;
 
     background-color: #121212;
     color: #ffffff;
 }
-
-
-/* =========================
-   TASKS NAVBAR
-   ========================= */
 
 .tasks-navbar {
     display: flex;
@@ -396,10 +381,6 @@
 }
 
 
-/* =========================
-   TASKS LAYOUT - MOBILE
-   ========================= */
-
 .tasks-layout {
     display: flex;
     flex-direction: column;
@@ -409,11 +390,6 @@
     padding: 1rem;
 }
 
-
-/* =========================
-   BLOQUES
-   ========================= */
-
 .tasks-library,
 .task-details,
 .user-panel {
@@ -422,11 +398,6 @@
     border: 1px solid #242424;
     border-radius: 12px;
 }
-
-
-/* =========================
-   TU BIBLIOTECA
-   ========================= */
 
 .tasks-library {
     padding: 1.25rem;
@@ -486,11 +457,6 @@
     color: #ffffff;
 }
 
-
-/* =========================
-   DETALLE DE TAREA
-   ========================= */
-
 .task-details {
     min-height: 320px;
 
@@ -536,11 +502,6 @@
     line-height: 1.6;
 }
 
-
-/* =========================
-   ESTADO DE TAREA
-   ========================= */
-
 .task-status {
     display: flex;
     flex-direction: column;
@@ -568,10 +529,6 @@
     font-size: 0.9rem;
 }
 
-
-/* =========================
-   ACCIONES
-   ========================= */
 
 .task-actions {
     display: flex;
@@ -645,10 +602,6 @@
     color: #ffffff;
 }
 
-
-/* =========================
-   PERFIL
-   ========================= */
 
 .user-panel {
     padding: 1.5rem;
@@ -753,6 +706,34 @@
     border-color: #777777;
 }
 
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.task-form textarea {
+    width: 100%;
+
+    padding: 0.85rem 1rem;
+
+    background-color: #242424;
+    color: #ffffff;
+
+    border: 1px solid #535353;
+    border-radius: 4px;
+
+    font-family: inherit;
+    font-size: 1rem;
+
+    resize: vertical;
+
+    outline: none;
+}
+
+.task-form textarea:focus {
+    border-color: #ffffff;
+}
 
 /* =========================
    TABLET
