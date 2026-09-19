@@ -7,6 +7,7 @@
     background-color: #121212;
 }
 
+
 /* =========================
    HEADER - MOBILE
    ========================= */
@@ -23,6 +24,7 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
+
     color: #ffffff;
     text-decoration: none;
     font-weight: 700;
@@ -44,6 +46,7 @@
     text-decoration: none;
     font-size: 0.95rem;
     font-weight: 600;
+
     transition: color 0.2s ease;
 }
 
@@ -51,14 +54,17 @@
     color: #1db954;
 }
 
+
 /* =========================
    HERO - MOBILE
    ========================= */
 
 .hero {
     min-height: calc(100vh - 80px);
+
     display: flex;
     align-items: center;
+
     padding: 2rem 1.5rem 4rem;
 }
 
@@ -69,36 +75,51 @@
 
 .hero-label {
     color: #1db954;
+
     font-size: 0.75rem;
     font-weight: 700;
+
     letter-spacing: 0.12rem;
+
     margin-bottom: 1.25rem;
 }
 
 .hero h1 {
     font-size: clamp(3rem, 15vw, 7rem);
+
     line-height: 0.95;
     letter-spacing: -0.05em;
+
     margin-bottom: 1.75rem;
 }
 
 .hero-description {
     max-width: 550px;
+
     color: #b3b3b3;
+
     font-size: 1rem;
     line-height: 1.6;
+
     margin-bottom: 2rem;
 }
 
 .hero-button {
     display: inline-block;
+
     padding: 0.9rem 1.6rem;
+
     background-color: #1db954;
     color: #000000;
+
     text-decoration: none;
     font-weight: 700;
+
     border-radius: 999px;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
 }
 
 .hero-button:hover {
@@ -106,9 +127,14 @@
     transform: scale(1.04);
 }
 
+
+/* Logo grande del Hero */
+/* Oculto en móvil y tablet */
+
 .hero-logo {
     display: none;
 }
+
 
 /* =========================
    AUTH PAGE - MOBILE
@@ -116,9 +142,12 @@
 
 .auth-page {
     min-height: 100vh;
+
     background-color: #121212;
+
     display: flex;
     justify-content: center;
+
     padding: 2rem 1.5rem;
 }
 
@@ -129,26 +158,32 @@
 
 .auth-logo {
     justify-content: center;
+
     font-size: 1.5rem;
+
     margin-bottom: 4rem;
 }
 
 .auth-content h1 {
     font-size: 2rem;
+
     line-height: 1.2;
     text-align: center;
+
     margin-bottom: 2rem;
 }
 
 .auth-form {
     display: flex;
     flex-direction: column;
+
     gap: 1.25rem;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
+
     gap: 0.5rem;
 }
 
@@ -160,13 +195,19 @@
 .form-group input {
     width: 100%;
     min-height: 48px;
+
     padding: 0.85rem 1rem;
+
     background-color: #242424;
     color: #ffffff;
+
     border: 1px solid #535353;
     border-radius: 4px;
+
     font-size: 1rem;
+
     outline: none;
+
     transition: border-color 0.2s ease;
 }
 
@@ -181,16 +222,25 @@
 .auth-button {
     width: 100%;
     min-height: 48px;
+
     margin-top: 0.75rem;
+
     padding: 0.9rem 1rem;
+
     border: none;
     border-radius: 999px;
+
     background-color: #1db954;
     color: #000000;
+
     font-size: 1rem;
     font-weight: 700;
+
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .auth-button:hover {
@@ -200,20 +250,507 @@
 
 .auth-footer {
     margin-top: 2rem;
+
     text-align: center;
+
     color: #b3b3b3;
+
     font-size: 0.9rem;
 }
 
 .auth-footer a {
     color: #ffffff;
+
     font-weight: 600;
     text-decoration: underline;
+
     transition: color 0.2s ease;
 }
 
 .auth-footer a:hover {
     color: #1db954;
+}
+
+
+/* =========================================================
+   TASKS
+   ========================================================= */
+
+
+/* =========================
+   TASKS - MOBILE
+   ========================= */
+
+.tasks-page {
+    min-height: 100vh;
+
+    background-color: #121212;
+    color: #ffffff;
+}
+
+
+/* =========================
+   TASKS NAVBAR
+   ========================= */
+
+.tasks-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 72px;
+
+    padding: 0 1.25rem;
+
+    background-color: #121212;
+
+    border-bottom: 1px solid #242424;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 50;
+}
+
+
+/* Logo */
+
+.tasks-logo {
+    display: flex;
+    align-items: center;
+
+    gap: 0.6rem;
+
+    color: #ffffff;
+
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.tasks-logo img {
+    width: 32px;
+    height: 32px;
+
+    object-fit: contain;
+}
+
+
+/* Home */
+
+.tasks-navbar .home-button {
+    display: flex;
+    align-items: center;
+
+    gap: 0.4rem;
+
+    padding: 0.6rem 0.9rem;
+
+    border: none;
+    border-radius: 999px;
+
+    background-color: #242424;
+    color: #ffffff;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.tasks-navbar .home-button:hover {
+    background-color: #303030;
+
+    transform: scale(1.03);
+}
+
+
+/* Usuario */
+
+.tasks-navbar .user-button {
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #242424;
+    color: #ffffff;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.tasks-navbar .user-button:hover {
+    background-color: #303030;
+
+    transform: scale(1.05);
+}
+
+
+/* =========================
+   TASKS LAYOUT - MOBILE
+   ========================= */
+
+.tasks-layout {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+
+    padding: 1rem;
+}
+
+
+/* =========================
+   BLOQUES
+   ========================= */
+
+.tasks-library,
+.task-details,
+.user-panel {
+    background-color: #181818;
+
+    border: 1px solid #242424;
+    border-radius: 12px;
+}
+
+
+/* =========================
+   TU BIBLIOTECA
+   ========================= */
+
+.tasks-library {
+    padding: 1.25rem;
+}
+
+.tasks-library h2 {
+    margin-bottom: 1rem;
+
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.35rem;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+
+    width: 100%;
+
+    padding: 0.8rem;
+
+    border: none;
+    border-radius: 6px;
+
+    background-color: transparent;
+    color: #b3b3b3;
+
+    text-align: left;
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.task-item:hover {
+    background-color: #242424;
+    color: #ffffff;
+
+    transform: translateX(2px);
+}
+
+.task-item:first-child {
+    background-color: #242424;
+    color: #ffffff;
+}
+
+
+/* =========================
+   DETALLE DE TAREA
+   ========================= */
+
+.task-details {
+    min-height: 320px;
+
+    padding: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.task-details-label {
+    margin-bottom: 0.75rem;
+
+    color: #1db954;
+
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    letter-spacing: 0.12rem;
+
+    text-transform: uppercase;
+}
+
+.task-details h1 {
+    margin-bottom: 1rem;
+
+    font-size: 2rem;
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+.task-description {
+    max-width: 500px;
+
+    margin-bottom: 1.5rem;
+
+    color: #b3b3b3;
+
+    font-size: 0.95rem;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   ESTADO DE TAREA
+   ========================= */
+
+.task-status {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.3rem;
+
+    margin-bottom: 2rem;
+
+    padding: 1rem 1.2rem;
+
+    background-color: #202020;
+
+    border-radius: 8px;
+}
+
+.task-status span {
+    color: #777777;
+
+    font-size: 0.8rem;
+}
+
+.task-status strong {
+    color: #ffffff;
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.task-actions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 0.6rem;
+}
+
+.task-actions button {
+    min-height: 42px;
+
+    padding: 0.7rem 1rem;
+
+    border-radius: 999px;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.task-actions button:hover {
+    transform: scale(1.03);
+}
+
+
+/* Nueva tarea */
+
+.new-task-button {
+    border: none;
+
+    background-color: #1db954;
+    color: #000000;
+}
+
+.new-task-button:hover {
+    background-color: #1ed760;
+}
+
+
+/* Editar */
+
+.edit-task-button {
+    border: 1px solid #535353;
+
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.edit-task-button:hover {
+    background-color: #242424;
+}
+
+
+/* Eliminar */
+
+.delete-task-button {
+    border: 1px solid #535353;
+
+    background-color: transparent;
+    color: #b3b3b3;
+}
+
+.delete-task-button:hover {
+    background-color: #242424;
+    color: #ffffff;
+}
+
+
+/* =========================
+   PERFIL
+   ========================= */
+
+.user-panel {
+    padding: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+
+    margin-bottom: 1rem;
+
+    border-radius: 50%;
+
+    background-color: #242424;
+
+    font-size: 1.5rem;
+}
+
+.user-panel h2 {
+    margin-bottom: 0.4rem;
+
+    font-size: 1.2rem;
+}
+
+.user-email {
+    margin-bottom: 1.5rem;
+
+    color: #a7a7a7;
+
+    font-size: 0.85rem;
+}
+
+
+/* Estadísticas */
+
+.user-stats {
+    display: flex;
+    justify-content: center;
+
+    gap: 1.5rem;
+
+    width: 100%;
+
+    margin-bottom: 1.5rem;
+}
+
+.user-stats div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.2rem;
+}
+
+.user-stats strong {
+    font-size: 1.1rem;
+}
+
+.user-stats span {
+    color: #777777;
+
+    font-size: 0.7rem;
+}
+
+
+/* Cerrar sesión */
+
+.logout-button {
+    width: 100%;
+
+    min-height: 42px;
+
+    border: 1px solid #535353;
+
+    border-radius: 999px;
+
+    background-color: transparent;
+    color: #ffffff;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.logout-button:hover {
+    background-color: #242424;
+
+    border-color: #777777;
 }
 
 
@@ -237,6 +774,7 @@
         font-size: 1.1rem;
     }
 
+
     /* Auth */
 
     .auth-page {
@@ -250,6 +788,33 @@
     .auth-content h1 {
         font-size: 2.5rem;
     }
+
+
+    /* Tasks */
+
+    .tasks-navbar {
+        height: 80px;
+
+        padding: 0 2rem;
+    }
+
+    .tasks-layout {
+        padding: 1.5rem;
+
+        gap: 1.25rem;
+    }
+
+    .tasks-library {
+        padding: 1.5rem;
+    }
+
+    .task-details {
+        padding: 2rem;
+    }
+
+    .user-panel {
+        padding: 2rem;
+    }
 }
 
 
@@ -259,7 +824,9 @@
 
 @media (min-width: 1024px) {
 
-    /* Home */
+    /* =========================
+       HOME
+       ========================= */
 
     .home-header {
         padding: 2rem 4rem;
@@ -267,7 +834,10 @@
 
     .hero {
         min-height: calc(100vh - 88px);
+
         padding: 4rem;
+
+        justify-content: space-between;
     }
 
     .hero-label {
@@ -278,26 +848,136 @@
         font-size: 1.2rem;
     }
 
-    .auth-page {
-        padding-top: 4rem;
-    }
 
-    .hero {
-        min-height: calc(100vh - 88px);
-        padding: 4rem;
-        justify-content: space-between;
-    }
+    /* Logo grande */
 
     .hero-logo {
         display: flex;
+
         align-items: center;
         justify-content: center;
+
         width: 40%;
     }
 
     .hero-logo img {
         width: min(30vw, 400px);
+
         height: auto;
+
         object-fit: contain;
+    }
+
+
+    /* =========================
+       AUTH
+       ========================= */
+
+    .auth-page {
+        padding-top: 4rem;
+    }
+
+
+    /* =========================
+       TASKS
+       ========================= */
+
+    .tasks-navbar {
+        height: 80px;
+
+        padding: 0 2.5rem;
+    }
+
+
+    /*
+       Los 3 bloques pasan a estar
+       horizontalmente
+    */
+
+    .tasks-layout {
+        display: grid;
+
+        grid-template-columns:
+            260px minmax(0, 1fr) 260px;
+
+        align-items: stretch;
+
+        gap: 1rem;
+
+        padding: 1rem;
+    }
+
+
+    /* =========================
+       BIBLIOTECA
+       ========================= */
+
+    .tasks-library {
+        min-height: calc(100vh - 112px);
+
+        padding: 1.5rem;
+    }
+
+    .tasks-library h2 {
+        font-size: 1.25rem;
+    }
+
+
+    /* =========================
+       DETALLE
+       ========================= */
+
+    .task-details {
+        min-height: calc(100vh - 112px);
+
+        padding: 2.5rem;
+    }
+
+    .task-details h1 {
+        font-size: 3rem;
+    }
+
+    .task-description {
+        font-size: 1.05rem;
+    }
+
+
+    /* =========================
+       PERFIL
+       ========================= */
+
+    .user-panel {
+        min-height: calc(100vh - 112px);
+
+        padding: 1.5rem;
+    }
+}
+
+
+/* =========================
+   LARGE DESKTOP
+   ========================= */
+
+@media (min-width: 1400px) {
+
+    .tasks-layout {
+        grid-template-columns:
+            300px minmax(0, 1fr) 300px;
+
+        max-width: 1400px;
+
+        margin: 0 auto;
+
+        gap: 1.25rem;
+
+        padding: 1.25rem;
+    }
+
+    .task-details {
+        padding: 3rem;
+    }
+
+    .task-details h1 {
+        font-size: 3.5rem;
     }
 }
