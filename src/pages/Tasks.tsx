@@ -118,6 +118,23 @@ function Tasks() {
         }
     };
 
+    const handleToggleComplete = () => {
+        const updatedTask: Task = {
+            ...selectedTask,
+            completed: !selectedTask.completed,
+        };
+
+        setTasks(
+            tasks.map((task) =>
+                task.id === selectedTask.id
+                    ? updatedTask
+                    : task
+            )
+        );
+
+        setSelectedTask(updatedTask);
+    };
+
     return (
         <main className="tasks-page">
 
@@ -208,7 +225,6 @@ function Tasks() {
 
                             </div>
                             <div className="task-actions">
-
                                 <button
                                     className="new-task-button"
                                     onClick={() => {
@@ -220,7 +236,6 @@ function Tasks() {
                                 >
                                     + Nueva tarea
                                 </button>
-
                                 <button
                                     className="edit-task-button"
                                     onClick={() => {
@@ -232,18 +247,26 @@ function Tasks() {
                                 >
                                     Editar
                                 </button>
-
+                                <button
+                                    className={
+                                        selectedTask.completed
+                                            ? "complete-task-button completed"
+                                            : "complete-task-button"
+                                    }
+                                    onClick={handleToggleComplete}
+                                >
+                                    {selectedTask.completed
+                                        ? "✓ Completada"
+                                        : "✓ Marcar como completada"}
+                                </button>
                                 <button
                                     className="delete-task-button"
                                     onClick={handleDeleteTask}
                                 >
                                     Eliminar
                                 </button>
-
                             </div>
-
                         </>
-
                     ) : (
 
                         <form
