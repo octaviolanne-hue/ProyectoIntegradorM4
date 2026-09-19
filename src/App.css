@@ -1,0 +1,303 @@
+/* =========================
+   HOME
+   ========================= */
+
+.home {
+    min-height: 100vh;
+    background-color: #121212;
+}
+
+/* =========================
+   HEADER - MOBILE
+   ========================= */
+
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+}
+
+.logo,
+.auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.logo img,
+.auth-logo img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.logo {
+    font-size: 1.4rem;
+}
+
+.login-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.login-link:hover {
+    color: #1db954;
+}
+
+/* =========================
+   HERO - MOBILE
+   ========================= */
+
+.hero {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.hero-content {
+    width: 100%;
+    max-width: 700px;
+}
+
+.hero-label {
+    color: #1db954;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12rem;
+    margin-bottom: 1.25rem;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 15vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    margin-bottom: 1.75rem;
+}
+
+.hero-description {
+    max-width: 550px;
+    color: #b3b3b3;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 0.9rem 1.6rem;
+    background-color: #1db954;
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 999px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hero-button:hover {
+    background-color: #1ed760;
+    transform: scale(1.04);
+}
+
+.hero-logo {
+    display: none;
+}
+
+/* =========================
+   AUTH PAGE - MOBILE
+   ========================= */
+
+.auth-page {
+    min-height: 100vh;
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-logo {
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.auth-content h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.85rem 1rem;
+    background-color: #242424;
+    color: #ffffff;
+    border: 1px solid #535353;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #a7a7a7;
+}
+
+.form-group input:focus {
+    border-color: #ffffff;
+}
+
+.auth-button {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 999px;
+    background-color: #1db954;
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-button:hover {
+    background-color: #1ed760;
+    transform: scale(1.02);
+}
+
+.auth-footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+
+.auth-footer a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.auth-footer a:hover {
+    color: #1db954;
+}
+
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (min-width: 768px) {
+
+    /* Home */
+
+    .home-header {
+        padding: 2rem 3rem;
+    }
+
+    .hero {
+        padding: 3rem;
+    }
+
+    .hero-description {
+        font-size: 1.1rem;
+    }
+
+    /* Auth */
+
+    .auth-page {
+        padding: 3rem 2rem;
+    }
+
+    .auth-logo {
+        margin-bottom: 5rem;
+    }
+
+    .auth-content h1 {
+        font-size: 2.5rem;
+    }
+}
+
+
+/* =========================
+   DESKTOP
+   ========================= */
+
+@media (min-width: 1024px) {
+
+    /* Home */
+
+    .home-header {
+        padding: 2rem 4rem;
+    }
+
+    .hero {
+        min-height: calc(100vh - 88px);
+        padding: 4rem;
+    }
+
+    .hero-label {
+        font-size: 0.85rem;
+    }
+
+    .hero-description {
+        font-size: 1.2rem;
+    }
+
+    .auth-page {
+        padding-top: 4rem;
+    }
+
+    .hero {
+        min-height: calc(100vh - 88px);
+        padding: 4rem;
+        justify-content: space-between;
+    }
+
+    .hero-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+    }
+
+    .hero-logo img {
+        width: min(30vw, 400px);
+        height: auto;
+        object-fit: contain;
+    }
+}
