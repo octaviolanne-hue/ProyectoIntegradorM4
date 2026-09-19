@@ -1,69 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../features/AuthContext";
 import { deleteAccount, logout } from "../services/auth";
-
-interface Task {
-    id: number;
-    title: string;
-    description: string;
-    completed: boolean;
-}
-
-const initialTasks: Task[] = [
-    {
-        id: 1,
-        title: "Estudiar React",
-        description:
-            "Repasar componentes, props y React Router para continuar con el proyecto Taskify.",
-        completed: false,
-    },
-    {
-        id: 2,
-        title: "Crear proyecto",
-        description:
-            "Crear la estructura inicial del proyecto Taskify.",
-        completed: false,
-    },
-    {
-        id: 3,
-        title: "Terminar ejercicio",
-        description:
-            "Completar el ejercicio de React Router de Henry.",
-        completed: true,
-    },
-    {
-        id: 4,
-        title: "Leer documentación",
-        description:
-            "Leer la documentación oficial de React para reforzar conceptos.",
-        completed: false,
-    },
-];
+import { addTask, getTasks } from "../services/tasks";
+import type { Task } from "../types/task";
 
 function Tasks() {
-
-    const [tasks, setTasks] = useState<Task[]>(initialTasks);
-
-    const [selectedTask, setSelectedTask] = useState<Task>(initialTasks[0]);
-
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [showForm, setShowForm] = useState(false);
-
     const [isEditing, setIsEditing] = useState(false);
-
     const [title, setTitle] = useState("");
-
     const [description, setDescription] = useState("");
 
     const { user } = useAuth();
 
+    useEffect(() => {
+        const loadTasks = async () => {
+            try {
+                const tasksFromFirebase = await getTasks();
 
-    const handleSubmitTask = (
+                setTasks(tasksFromFirebase);
+
+                if (tasksFromFirebase.length > 0) {
+                    setSelectedTask(tasksFromFirebase[0]);
+                }
+            } catch (error) {
+                console.error("Error al cargar las tareas:", error);
+            }
+        };
+
+        loadTasks();
+    }, []);
+
+    const handleSubmitTask = async (
         event: React.FormEvent<HTMLFormElement>
     ) => {
-
         event.preventDefault();
 
         if (isEditing) {
+            if (!selectedTask) {
+                return;
+            }
 
             const updatedTask: Task = {
                 ...selectedTask,
@@ -80,19 +57,19 @@ function Tasks() {
             );
 
             setSelectedTask(updatedTask);
-
         } else {
+            await addTask(title, description);
 
-            const newTask: Task = {
-                id: Date.now(),
-                title,
-                description,
-                completed: false,
-            };
+            const tasksFromFirebase = await getTasks();
 
-            setTasks([...tasks, newTask]);
+            setTasks(tasksFromFirebase);
 
-            setSelectedTask(newTask);
+            const newTask =
+                tasksFromFirebase[tasksFromFirebase.length - 1];
+
+            if (newTask) {
+                setSelectedTask(newTask);
+            }
         }
 
         setTitle("");
@@ -102,6 +79,9 @@ function Tasks() {
     };
 
     const handleDeleteTask = () => {
+        if (!selectedTask) {
+            return;
+        }
 
         const confirmed = window.confirm(
             `¿Querés eliminar "${selectedTask.title}"?`
@@ -119,10 +99,16 @@ function Tasks() {
 
         if (remainingTasks.length > 0) {
             setSelectedTask(remainingTasks[0]);
+        } else {
+            setSelectedTask(null);
         }
     };
 
     const handleToggleComplete = () => {
+        if (!selectedTask) {
+            return;
+        }
+
         const updatedTask: Task = {
             ...selectedTask,
             completed: !selectedTask.completed,
@@ -168,7 +154,6 @@ function Tasks() {
 
             {/* NAVBAR */}
             <nav className="tasks-navbar">
-
                 <div className="tasks-logo">
                     <img src="/logo.png" alt="Taskify" />
                     <span>Taskify</span>
@@ -182,29 +167,22 @@ function Tasks() {
                 <button className="user-button">
                     👤
                 </button>
-
             </nav>
-
 
             {/* CONTENIDO PRINCIPAL */}
             <section className="tasks-layout">
 
-
                 {/* BIBLIOTECA */}
                 <aside className="tasks-library">
-
                     <h2>Tu biblioteca</h2>
 
                     <div className="task-list">
-
                         {tasks.map((task) => (
-
                             <button
                                 key={task.id}
                                 className="task-item"
                                 onClick={() => setSelectedTask(task)}
                             >
-
                                 <span>
                                     {task.completed ? "✓" : "○"}
                                 </span>
@@ -212,103 +190,111 @@ function Tasks() {
                                 <span>
                                     {task.title}
                                 </span>
-
                             </button>
-
                         ))}
-
                     </div>
-
                 </aside>
-
 
                 {/* DETALLE DE TAREA */}
                 <section className="task-details">
-
                     {!showForm ? (
-                        <>
-                            <p className="task-details-label">
-                                TAREA SELECCIONADA
+                        selectedTask ? (
+                            <>
+                                <p className="task-details-label">
+                                    TAREA SELECCIONADA
+                                </p>
+
+                                <h1>
+                                    {selectedTask.title}
+                                </h1>
+
+                                <p className="task-description">
+                                    {selectedTask.description}
+                                </p>
+
+                                <div className="task-status">
+                                    <span>
+                                        Estado
+                                    </span>
+
+                                    <strong>
+                                        {selectedTask.completed
+                                            ? "✓ Completada"
+                                            : "○ Pendiente"}
+                                    </strong>
+                                </div>
+
+                                <div className="task-actions">
+                                    <button
+                                        className="new-task-button"
+                                        onClick={() => {
+                                            setIsEditing(false);
+                                            setTitle("");
+                                            setDescription("");
+                                            setShowForm(true);
+                                        }}
+                                    >
+                                        + Nueva tarea
+                                    </button>
+
+                                    <button
+                                        className="edit-task-button"
+                                        onClick={() => {
+                                            setIsEditing(true);
+                                            setTitle(selectedTask.title);
+                                            setDescription(
+                                                selectedTask.description
+                                            );
+                                            setShowForm(true);
+                                        }}
+                                    >
+                                        Editar
+                                    </button>
+
+                                    <button
+                                        className={
+                                            selectedTask.completed
+                                                ? "complete-task-button completed"
+                                                : "complete-task-button"
+                                        }
+                                        onClick={handleToggleComplete}
+                                    >
+                                        {selectedTask.completed
+                                            ? "✓ Completada"
+                                            : "✓ Marcar como completada"}
+                                    </button>
+
+                                    <button
+                                        className="delete-task-button"
+                                        onClick={handleDeleteTask}
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <p>
+                                No hay tareas para mostrar.
                             </p>
-
-                            <h1>
-                                {selectedTask.title}
-                            </h1>
-
-                            <p className="task-description">
-                                {selectedTask.description}
-                            </p>
-
-                            <div className="task-status">
-
-                                <span>
-                                    Estado
-                                </span>
-
-                                <strong>
-                                    {selectedTask.completed
-                                        ? "✓ Completada"
-                                        : "○ Pendiente"}
-                                </strong>
-
-                            </div>
-                            <div className="task-actions">
-                                <button
-                                    className="new-task-button"
-                                    onClick={() => {
-                                        setIsEditing(false);
-                                        setTitle("");
-                                        setDescription("");
-                                        setShowForm(true);
-                                    }}
-                                >
-                                    + Nueva tarea
-                                </button>
-                                <button
-                                    className="edit-task-button"
-                                    onClick={() => {
-                                        setIsEditing(true);
-                                        setTitle(selectedTask.title);
-                                        setDescription(selectedTask.description);
-                                        setShowForm(true);
-                                    }}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    className={
-                                        selectedTask.completed
-                                            ? "complete-task-button completed"
-                                            : "complete-task-button"
-                                    }
-                                    onClick={handleToggleComplete}
-                                >
-                                    {selectedTask.completed
-                                        ? "✓ Completada"
-                                        : "✓ Marcar como completada"}
-                                </button>
-                                <button
-                                    className="delete-task-button"
-                                    onClick={handleDeleteTask}
-                                >
-                                    Eliminar
-                                </button>
-                            </div>
-                        </>
+                        )
                     ) : (
-
                         <form
                             className="task-form"
                             onSubmit={handleSubmitTask}
                         >
                             <p className="task-details-label">
-                                {isEditing ? "EDITAR TAREA" : "NUEVA TAREA"}
+                                {isEditing
+                                    ? "EDITAR TAREA"
+                                    : "NUEVA TAREA"}
                             </p>
-                            <h1>
-                                {isEditing ? "Editar tarea" : "Crear tarea"}
-                            </h1>
-                            <div className="form-group">
 
+                            <h1>
+                                {isEditing
+                                    ? "Editar tarea"
+                                    : "Crear tarea"}
+                            </h1>
+
+                            <div className="form-group">
                                 <label htmlFor="task-title">
                                     Título
                                 </label>
@@ -324,10 +310,12 @@ function Tasks() {
                                     required
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label htmlFor="task-description">
                                     Descripción
                                 </label>
+
                                 <textarea
                                     id="task-description"
                                     value={description}
@@ -339,17 +327,23 @@ function Tasks() {
                                     required
                                 />
                             </div>
+
                             <div className="task-actions">
                                 <button
                                     type="submit"
                                     className="new-task-button"
                                 >
-                                    {isEditing ? "Guardar cambios" : "Crear tarea"}
+                                    {isEditing
+                                        ? "Guardar cambios"
+                                        : "Crear tarea"}
                                 </button>
+
                                 <button
                                     type="button"
                                     className="edit-task-button"
-                                    onClick={() => setShowForm(false)}
+                                    onClick={() =>
+                                        setShowForm(false)
+                                    }
                                 >
                                     Cancelar
                                 </button>
@@ -357,22 +351,31 @@ function Tasks() {
                         </form>
                     )}
                 </section>
+
                 {/* PERFIL */}
                 <aside className="user-panel">
                     <div className="user-avatar">
                         {user?.photoURL ? (
                             <img
                                 src={user.photoURL}
-                                alt={user.displayName || "Usuario"}
+                                alt={
+                                    user.displayName ||
+                                    "Usuario"
+                                }
                             />
                         ) : (
                             "👤"
                         )}
                     </div>
-                    <h2>Hola, {user?.displayName}!</h2>
+
+                    <h2>
+                        Hola, {user?.displayName}!
+                    </h2>
+
                     <p className="user-email">
                         {user?.email}
                     </p>
+
                     <div className="user-stats">
                         <div>
                             <strong>
@@ -383,29 +386,45 @@ function Tasks() {
                                 Tareas
                             </span>
                         </div>
+
                         <div>
                             <strong>
-                                {tasks.filter((task) => task.completed).length}
+                                {
+                                    tasks.filter(
+                                        (task) =>
+                                            task.completed
+                                    ).length
+                                }
                             </strong>
+
                             <span>
                                 Completadas
                             </span>
                         </div>
+
                         <div>
                             <strong>
-                                {tasks.filter((task) => !task.completed).length}
+                                {
+                                    tasks.filter(
+                                        (task) =>
+                                            !task.completed
+                                    ).length
+                                }
                             </strong>
+
                             <span>
                                 Pendientes
                             </span>
                         </div>
                     </div>
+
                     <button
                         className="logout-button"
                         onClick={logout}
                     >
                         Cerrar sesión
                     </button>
+
                     <button
                         className="delete-account-button"
                         onClick={handleDeleteAccount}
@@ -417,4 +436,5 @@ function Tasks() {
         </main>
     );
 }
+
 export default Tasks;
