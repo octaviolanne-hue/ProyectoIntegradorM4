@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { logout } from "../services/auth";
+import { useAuth } from "../features/AuthContext.tsx";
 
 interface Task {
     id: number;
@@ -51,6 +53,8 @@ function Tasks() {
     const [title, setTitle] = useState("");
 
     const [description, setDescription] = useState("");
+
+    const { user } = useAuth();
 
 
     const handleSubmitTask = (
@@ -338,7 +342,7 @@ function Tasks() {
                         Tu perfil
                     </h2>
                     <p className="user-email">
-                        usuario@email.com
+                        {user?.email}
                     </p>
                     <div className="user-stats">
                         <div>
@@ -367,7 +371,10 @@ function Tasks() {
                             </span>
                         </div>
                     </div>
-                    <button className="logout-button">
+                    <button
+                        className="logout-button"
+                        onClick={logout}
+                    >
                         Cerrar sesión
                     </button>
                 </aside>
