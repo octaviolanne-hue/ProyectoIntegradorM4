@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { logout } from "../services/auth";
-import { useAuth } from "../features/AuthContext.tsx";
+import { useAuth } from "../features/AuthContext";
+import { deleteAccount, logout } from "../services/auth";
 
 interface Task {
     id: number;
@@ -137,6 +137,30 @@ function Tasks() {
         );
 
         setSelectedTask(updatedTask);
+    };
+
+    const handleDeleteAccount = async () => {
+        if (!user) {
+            return;
+        }
+
+        const confirmed = window.confirm(
+            "¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer."
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await deleteAccount();
+        } catch (error) {
+            console.error(error);
+
+            window.alert(
+                "No se pudo eliminar la cuenta. Es posible que Firebase requiera que vuelvas a iniciar sesión."
+            );
+        }
     };
 
     return (
@@ -338,9 +362,7 @@ function Tasks() {
                     <div className="user-avatar">
                         👤
                     </div>
-                    <h2>
-                        Tu perfil
-                    </h2>
+                    <h2>Hola, {user?.displayName}!</h2>
                     <p className="user-email">
                         {user?.email}
                     </p>
@@ -376,6 +398,12 @@ function Tasks() {
                         onClick={logout}
                     >
                         Cerrar sesión
+                    </button>
+                    <button
+                        className="delete-account-button"
+                        onClick={handleDeleteAccount}
+                    >
+                        Eliminar cuenta
                     </button>
                 </aside>
             </section>

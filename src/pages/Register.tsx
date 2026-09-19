@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    updateProfile,
+} from "firebase/auth";
 import { auth } from "../services/auth";
 
 function Register() {
     const navigate = useNavigate();
 
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -22,11 +26,16 @@ function Register() {
         }
 
         try {
-            await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+            const userCredential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            await updateProfile(userCredential.user, {
+                displayName: name,
+            });
 
             navigate("/tasks");
         } catch (error) {
@@ -50,7 +59,24 @@ function Register() {
                         onSubmit={handleRegister}
                     >
                         <div className="form-group">
+                            <label htmlFor="name">Nombre</label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Tu nombre"
+                                value={name}
+                                onChange={(event) =>
+                                    setName(event.target.value)
+                                }
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
                             <label htmlFor="email">Email</label>
+
                             <input
                                 type="email"
                                 id="email"
@@ -68,6 +94,7 @@ function Register() {
                             <label htmlFor="password">
                                 Contraseña
                             </label>
+
                             <input
                                 type="password"
                                 id="password"
@@ -85,6 +112,7 @@ function Register() {
                             <label htmlFor="confirmPassword">
                                 Confirmar contraseña
                             </label>
+
                             <input
                                 type="password"
                                 id="confirmPassword"
