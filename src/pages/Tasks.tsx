@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../features/AuthContext";
 import { deleteAccount, logout } from "../services/auth";
-import { addTask, getTasks } from "../services/tasks";
+import {
+    addTask,
+    getTasks,
+    updateTask,
+    deleteTask,
+} from "../services/tasks";
 import type { Task } from "../types/task";
 
 function Tasks() {
@@ -42,6 +47,13 @@ function Tasks() {
                 return;
             }
 
+            await updateTask(
+                selectedTask.id,
+                title,
+                description,
+                selectedTask.completed
+            );
+
             const updatedTask: Task = {
                 ...selectedTask,
                 title,
@@ -78,7 +90,7 @@ function Tasks() {
         setIsEditing(false);
     };
 
-    const handleDeleteTask = () => {
+    const handleDeleteTask = async () => {
         if (!selectedTask) {
             return;
         }
@@ -91,20 +103,29 @@ function Tasks() {
             return;
         }
 
-        const remainingTasks = tasks.filter(
-            (task) => task.id !== selectedTask.id
-        );
+        try {
+            await deleteTask(selectedTask.id);
 
-        setTasks(remainingTasks);
+            const remainingTasks = tasks.filter(
+                (task) => task.id !== selectedTask.id
+            );
 
-        if (remainingTasks.length > 0) {
-            setSelectedTask(remainingTasks[0]);
-        } else {
-            setSelectedTask(null);
+            setTasks(remainingTasks);
+
+            if (remainingTasks.length > 0) {
+                setSelectedTask(remainingTasks[0]);
+            } else {
+                setSelectedTask(null);
+            }
+        } catch (error) {
+            console.error("Error al eliminar la tarea:", error);
+
+            window.alert(
+                "No se pudo eliminar la tarea."
+            );
         }
     };
-
-    const handleToggleComplete = () => {
+    const handleToggleComplete = async () => {
         if (!selectedTask) {
             return;
         }
@@ -114,15 +135,33 @@ function Tasks() {
             completed: !selectedTask.completed,
         };
 
-        setTasks(
-            tasks.map((task) =>
-                task.id === selectedTask.id
-                    ? updatedTask
-                    : task
-            )
-        );
+        try {
+            await updateTask(
+                selectedTask.id,
+                selectedTask.title,
+                selectedTask.description,
+                updatedTask.completed
+            );
 
-        setSelectedTask(updatedTask);
+            setTasks(
+                tasks.map((task) =>
+                    task.id === selectedTask.id
+                        ? updatedTask
+                        : task
+                )
+            );
+
+            setSelectedTask(updatedTask);
+        } catch (error) {
+            console.error(
+                "Error al actualizar el estado de la tarea:",
+                error
+            );
+
+            window.alert(
+                "No se pudo actualizar el estado de la tarea."
+            );
+        }
     };
 
     const handleDeleteAccount = async () => {
@@ -273,9 +312,21 @@ function Tasks() {
                                 </div>
                             </>
                         ) : (
-                            <p>
-                                No hay tareas para mostrar.
-                            </p>
+                            <div className="empty-tasks">
+                                <p>No hay tareas para mostrar.</p>
+
+                                <button
+                                    className="new-task-button"
+                                    onClick={() => {
+                                        setIsEditing(false);
+                                        setTitle("");
+                                        setDescription("");
+                                        setShowForm(true);
+                                    }}
+                                >
+                                    + Nueva tarea
+                                </button>
+                            </div>
                         )
                     ) : (
                         <form

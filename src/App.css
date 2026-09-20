@@ -562,15 +562,27 @@
 
 /* Nueva tarea */
 
+/* Nueva tarea */
+
 .new-task-button {
     border: none;
-
     background-color: #1db954;
     color: #000000;
+    font-weight: 700;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .new-task-button:hover {
     background-color: #1ed760;
+    transform: scale(1.04);
+    box-shadow: 0 0 18px rgba(29, 185, 84, 0.25);
 }
 
 
@@ -772,69 +784,6 @@
     box-shadow: 0 0 14px rgba(29, 185, 84, 0.15);
 }
 
-/* =========================
-   TABLET
-   ========================= */
-
-@media (min-width: 768px) {
-
-    /* Home */
-
-    .home-header {
-        padding: 2rem 3rem;
-    }
-
-    .hero {
-        padding: 3rem;
-    }
-
-    .hero-description {
-        font-size: 1.1rem;
-    }
-
-
-    /* Auth */
-
-    .auth-page {
-        padding: 3rem 2rem;
-    }
-
-    .auth-logo {
-        margin-bottom: 5rem;
-    }
-
-    .auth-content h1 {
-        font-size: 2.5rem;
-    }
-
-
-    /* Tasks */
-
-    .tasks-navbar {
-        height: 80px;
-
-        padding: 0 2rem;
-    }
-
-    .tasks-layout {
-        padding: 1.5rem;
-
-        gap: 1.25rem;
-    }
-
-    .tasks-library {
-        padding: 1.5rem;
-    }
-
-    .task-details {
-        padding: 2rem;
-    }
-
-    .user-panel {
-        padding: 2rem;
-    }
-}
-
 .delete-account-button {
     width: 100%;
     margin-top: 0.75rem;
@@ -912,6 +861,78 @@
     height: 100%;
     object-fit: cover;
 }
+
+.empty-tasks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (min-width: 768px) {
+
+    /* Home */
+
+    .home-header {
+        padding: 2rem 3rem;
+    }
+
+    .hero {
+        padding: 3rem;
+    }
+
+    .hero-description {
+        font-size: 1.1rem;
+    }
+
+
+    /* Auth */
+
+    .auth-page {
+        padding: 3rem 2rem;
+    }
+
+    .auth-logo {
+        margin-bottom: 5rem;
+    }
+
+    .auth-content h1 {
+        font-size: 2.5rem;
+    }
+
+
+    /* Tasks */
+
+    .tasks-navbar {
+        height: 80px;
+
+        padding: 0 2rem;
+    }
+
+    .tasks-layout {
+        padding: 1.5rem;
+
+        gap: 1.25rem;
+    }
+
+    .tasks-library {
+        padding: 1.5rem;
+    }
+
+    .task-details {
+        padding: 2rem;
+    }
+
+    .user-panel {
+        padding: 2rem;
+    }
+}
+
 
 /* =========================
    DESKTOP
