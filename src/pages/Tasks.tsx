@@ -1,67 +1,179 @@
 import { useEffect, useState } from "react";
+import type React from "react";
+
 import { useAuth } from "../features/AuthContext";
-import { deleteAccount, logout } from "../services/auth";
+
+import {
+    deleteAccount,
+    logout,
+} from "../services/auth";
+
 import {
     addTask,
     getTasks,
     updateTask,
     deleteTask,
 } from "../services/tasks";
+
 import type { Task } from "../types/task";
 
+import TasksNavbar from "../components/TasksNavbar";
+import TaskLibrary from "../components/TaskLibrary";
+import TaskDetails from "../components/TaskDetails";
+import UserPanel from "../components/UserPanel";
+
+import { sendTaskSummary } from "../services/email";
+
+
 function Tasks() {
+    const { user } = useAuth();
+
     const [tasks, setTasks] = useState<Task[]>([]);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
     const [showForm, setShowForm] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    const { user } = useAuth();
+    const [isSendingSummary, setIsSendingSummary] = useState(false);
+    const [summaryMessage, setSummaryMessage] = useState("");
 
+
+    // Cargar tareas al entrar a la página
     useEffect(() => {
         const loadTasks = async () => {
             try {
-                const tasksFromFirebase = await getTasks();
+                const loadedTasks = await getTasks();
 
-                setTasks(tasksFromFirebase);
+                setTasks(loadedTasks);
 
-                if (tasksFromFirebase.length > 0) {
-                    setSelectedTask(tasksFromFirebase[0]);
+                if (loadedTasks.length > 0) {
+                    setSelectedTask(loadedTasks[0]);
                 }
             } catch (error) {
-                console.error("Error al cargar las tareas:", error);
+                console.error(
+                    "Error al cargar las tareas:",
+                    error
+                );
             }
         };
 
         loadTasks();
     }, []);
 
-    const handleSubmitTask = async (
+
+    // Crear o editar tarea
+    const handleSubmit = async (
         event: React.FormEvent<HTMLFormElement>
     ) => {
         event.preventDefault();
 
-        if (isEditing) {
-            if (!selectedTask) {
-                return;
+        try {
+            if (isEditing && selectedTask) {
+                await updateTask(
+                    selectedTask.id,
+                    title,
+                    description,
+                    selectedTask.completed
+                );
+
+                const updatedTasks = await getTasks();
+
+                setTasks(updatedTasks);
+
+                const updatedSelectedTask = updatedTasks.find(
+                    (task) => task.id === selectedTask.id
+                );
+
+                setSelectedTask(
+                    updatedSelectedTask ?? null
+                );
+
+            } else {
+                await addTask(title, description);
+
+                const updatedTasks = await getTasks();
+
+                setTasks(updatedTasks);
+
+                if (updatedTasks.length > 0) {
+                    setSelectedTask(
+                        updatedTasks[updatedTasks.length - 1]
+                    );
+                }
             }
 
+            setTitle("");
+            setDescription("");
+            setShowForm(false);
+            setIsEditing(false);
+
+        } catch (error) {
+            console.error(
+                "Error al guardar la tarea:",
+                error
+            );
+        }
+    };
+
+
+    // Mostrar formulario para crear una tarea
+    const handleNewTask = () => {
+        setTitle("");
+        setDescription("");
+
+        setIsEditing(false);
+        setShowForm(true);
+    };
+
+
+    // Mostrar formulario para editar la tarea seleccionada
+    const handleEditTask = () => {
+        if (!selectedTask) {
+            return;
+        }
+
+        setTitle(selectedTask.title);
+        setDescription(selectedTask.description);
+
+        setIsEditing(true);
+        setShowForm(true);
+    };
+
+
+    // Cancelar formulario
+    const handleCancel = () => {
+        setTitle("");
+        setDescription("");
+
+        setShowForm(false);
+        setIsEditing(false);
+    };
+
+
+    // Marcar tarea como completada / pendiente
+    const handleToggleComplete = async () => {
+        if (!selectedTask) {
+            return;
+        }
+
+        const updatedTask = {
+            ...selectedTask,
+            completed: !selectedTask.completed,
+        };
+
+        try {
             await updateTask(
                 selectedTask.id,
-                title,
-                description,
-                selectedTask.completed
+                selectedTask.title,
+                selectedTask.description,
+                updatedTask.completed
             );
 
-            const updatedTask: Task = {
-                ...selectedTask,
-                title,
-                description,
-            };
-
-            setTasks(
-                tasks.map((task) =>
+            setTasks((currentTasks) =>
+                currentTasks.map((task) =>
                     task.id === selectedTask.id
                         ? updatedTask
                         : task
@@ -69,37 +181,19 @@ function Tasks() {
             );
 
             setSelectedTask(updatedTask);
-        } else {
-            await addTask(title, description);
 
-            const tasksFromFirebase = await getTasks();
-
-            setTasks(tasksFromFirebase);
-
-            const newTask =
-                tasksFromFirebase[tasksFromFirebase.length - 1];
-
-            if (newTask) {
-                setSelectedTask(newTask);
-            }
+        } catch (error) {
+            console.error(
+                "Error al actualizar la tarea:",
+                error
+            );
         }
-
-        setTitle("");
-        setDescription("");
-        setShowForm(false);
-        setIsEditing(false);
     };
 
+
+    // Eliminar tarea
     const handleDeleteTask = async () => {
         if (!selectedTask) {
-            return;
-        }
-
-        const confirmed = window.confirm(
-            `¿Querés eliminar "${selectedTask.title}"?`
-        );
-
-        if (!confirmed) {
             return;
         }
 
@@ -117,60 +211,34 @@ function Tasks() {
             } else {
                 setSelectedTask(null);
             }
-        } catch (error) {
-            console.error("Error al eliminar la tarea:", error);
 
-            window.alert(
-                "No se pudo eliminar la tarea."
-            );
-        }
-    };
-    const handleToggleComplete = async () => {
-        if (!selectedTask) {
-            return;
-        }
-
-        const updatedTask: Task = {
-            ...selectedTask,
-            completed: !selectedTask.completed,
-        };
-
-        try {
-            await updateTask(
-                selectedTask.id,
-                selectedTask.title,
-                selectedTask.description,
-                updatedTask.completed
-            );
-
-            setTasks(
-                tasks.map((task) =>
-                    task.id === selectedTask.id
-                        ? updatedTask
-                        : task
-                )
-            );
-
-            setSelectedTask(updatedTask);
         } catch (error) {
             console.error(
-                "Error al actualizar el estado de la tarea:",
+                "Error al eliminar la tarea:",
                 error
-            );
-
-            window.alert(
-                "No se pudo actualizar el estado de la tarea."
             );
         }
     };
 
-    const handleDeleteAccount = async () => {
-        if (!user) {
-            return;
-        }
 
+    // Cerrar sesión
+    const handleLogout = async () => {
+        try {
+            await logout();
+
+        } catch (error) {
+            console.error(
+                "Error al cerrar sesión:",
+                error
+            );
+        }
+    };
+
+
+    // Eliminar cuenta
+    const handleDeleteAccount = async () => {
         const confirmed = window.confirm(
-            "¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer."
+            "¿Estás seguro de que querés eliminar tu cuenta?"
         );
 
         if (!confirmed) {
@@ -179,311 +247,141 @@ function Tasks() {
 
         try {
             await deleteAccount();
-        } catch (error) {
-            console.error(error);
 
-            window.alert(
-                "No se pudo eliminar la cuenta. Es posible que Firebase requiera que vuelvas a iniciar sesión."
+        } catch (error) {
+            console.error(
+                "Error al eliminar la cuenta:",
+                error
             );
         }
     };
 
+
+    // Estadísticas
+    const completedCount = tasks.filter(
+        (task) => task.completed
+    ).length;
+
+    const pendingCount =
+        tasks.length - completedCount;
+
+
+    // Enviar resumen de tareas por email
+    const handleSendSummary = async () => {
+        if (!user?.email) {
+            setSummaryMessage(
+                "No hay un email asociado a tu cuenta."
+            );
+
+            return;
+        }
+
+        setIsSendingSummary(true);
+        setSummaryMessage("");
+
+        const summary = [
+            "Resumen de tareas - Taskify",
+            "",
+            `Total: ${tasks.length}`,
+            `Pendientes: ${pendingCount}`,
+            `Completadas: ${completedCount}`,
+            "",
+            "Tareas:",
+            ...tasks.map(
+                (task) =>
+                    `${task.completed ? "✓" : "○"} ${task.title}`
+            ),
+        ].join("\n");
+
+        try {
+            await sendTaskSummary(
+                user.email,
+                summary
+            );
+
+            setSummaryMessage(
+                "✓ Resumen enviado"
+            );
+
+        } catch (error) {
+            console.error(
+                "Error al enviar resumen:",
+                error
+            );
+
+            setSummaryMessage(
+                "No se pudo enviar el resumen."
+            );
+
+        } finally {
+            setIsSendingSummary(false);
+        }
+    };
+
+
     return (
         <main className="tasks-page">
 
-            {/* NAVBAR */}
-            <nav className="tasks-navbar">
-                <div className="tasks-logo">
-                    <img src="/logo.png" alt="Taskify" />
-                    <span>Taskify</span>
-                </div>
+            <TasksNavbar />
 
-                <button className="home-button">
-                    🏠
-                    <span>Home</span>
-                </button>
+            <div className="tasks-layout">
 
-                <button className="user-button">
-                    👤
-                </button>
-            </nav>
+                <TaskLibrary
+                    tasks={tasks}
+                    selectedTaskId={
+                        selectedTask?.id ?? null
+                    }
+                    onSelectTask={(task) => {
+                        setSelectedTask(task);
+                        setShowForm(false);
+                        setIsEditing(false);
+                    }}
+                />
 
-            {/* CONTENIDO PRINCIPAL */}
-            <section className="tasks-layout">
 
-                {/* BIBLIOTECA */}
-                <aside className="tasks-library">
-                    <h2>Tu biblioteca</h2>
+                <TaskDetails
+                    selectedTask={selectedTask}
+                    showForm={showForm}
+                    isEditing={isEditing}
+                    title={title}
+                    description={description}
+                    setTitle={setTitle}
+                    setDescription={setDescription}
+                    onNewTask={handleNewTask}
+                    onEditTask={handleEditTask}
+                    onToggleComplete={
+                        handleToggleComplete
+                    }
+                    onDeleteTask={
+                        handleDeleteTask
+                    }
+                    onSubmit={handleSubmit}
+                    onCancel={handleCancel}
+                />
 
-                    <div className="task-list">
-                        {tasks.map((task) => (
-                            <button
-                                key={task.id}
-                                className="task-item"
-                                onClick={() => setSelectedTask(task)}
-                            >
-                                <span>
-                                    {task.completed ? "✓" : "○"}
-                                </span>
 
-                                <span>
-                                    {task.title}
-                                </span>
-                            </button>
-                        ))}
-                    </div>
-                </aside>
+                <UserPanel
+                    user={user}
+                    tasksCount={tasks.length}
+                    completedCount={completedCount}
+                    pendingCount={pendingCount}
+                    onLogout={handleLogout}
+                    onDeleteAccount={
+                        handleDeleteAccount
+                    }
+                    onSendSummary={
+                        handleSendSummary
+                    }
+                    isSendingSummary={
+                        isSendingSummary
+                    }
+                    summaryMessage={
+                        summaryMessage
+                    }
+                />
 
-                {/* DETALLE DE TAREA */}
-                <section className="task-details">
-                    {!showForm ? (
-                        selectedTask ? (
-                            <>
-                                <p className="task-details-label">
-                                    TAREA SELECCIONADA
-                                </p>
+            </div>
 
-                                <h1>
-                                    {selectedTask.title}
-                                </h1>
-
-                                <p className="task-description">
-                                    {selectedTask.description}
-                                </p>
-
-                                <div className="task-status">
-                                    <span>
-                                        Estado
-                                    </span>
-
-                                    <strong>
-                                        {selectedTask.completed
-                                            ? "✓ Completada"
-                                            : "○ Pendiente"}
-                                    </strong>
-                                </div>
-
-                                <div className="task-actions">
-                                    <button
-                                        className="new-task-button"
-                                        onClick={() => {
-                                            setIsEditing(false);
-                                            setTitle("");
-                                            setDescription("");
-                                            setShowForm(true);
-                                        }}
-                                    >
-                                        + Nueva tarea
-                                    </button>
-
-                                    <button
-                                        className="edit-task-button"
-                                        onClick={() => {
-                                            setIsEditing(true);
-                                            setTitle(selectedTask.title);
-                                            setDescription(
-                                                selectedTask.description
-                                            );
-                                            setShowForm(true);
-                                        }}
-                                    >
-                                        Editar
-                                    </button>
-
-                                    <button
-                                        className={
-                                            selectedTask.completed
-                                                ? "complete-task-button completed"
-                                                : "complete-task-button"
-                                        }
-                                        onClick={handleToggleComplete}
-                                    >
-                                        {selectedTask.completed
-                                            ? "✓ Completada"
-                                            : "✓ Marcar como completada"}
-                                    </button>
-
-                                    <button
-                                        className="delete-task-button"
-                                        onClick={handleDeleteTask}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </>
-                        ) : (
-                            <div className="empty-tasks">
-                                <p>No hay tareas para mostrar.</p>
-
-                                <button
-                                    className="new-task-button"
-                                    onClick={() => {
-                                        setIsEditing(false);
-                                        setTitle("");
-                                        setDescription("");
-                                        setShowForm(true);
-                                    }}
-                                >
-                                    + Nueva tarea
-                                </button>
-                            </div>
-                        )
-                    ) : (
-                        <form
-                            className="task-form"
-                            onSubmit={handleSubmitTask}
-                        >
-                            <p className="task-details-label">
-                                {isEditing
-                                    ? "EDITAR TAREA"
-                                    : "NUEVA TAREA"}
-                            </p>
-
-                            <h1>
-                                {isEditing
-                                    ? "Editar tarea"
-                                    : "Crear tarea"}
-                            </h1>
-
-                            <div className="form-group">
-                                <label htmlFor="task-title">
-                                    Título
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="task-title"
-                                    value={title}
-                                    onChange={(event) =>
-                                        setTitle(event.target.value)
-                                    }
-                                    placeholder="Ej: Estudiar TypeScript"
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="task-description">
-                                    Descripción
-                                </label>
-
-                                <textarea
-                                    id="task-description"
-                                    value={description}
-                                    onChange={(event) =>
-                                        setDescription(event.target.value)
-                                    }
-                                    placeholder="Describe la tarea..."
-                                    rows={5}
-                                    required
-                                />
-                            </div>
-
-                            <div className="task-actions">
-                                <button
-                                    type="submit"
-                                    className="new-task-button"
-                                >
-                                    {isEditing
-                                        ? "Guardar cambios"
-                                        : "Crear tarea"}
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className="edit-task-button"
-                                    onClick={() =>
-                                        setShowForm(false)
-                                    }
-                                >
-                                    Cancelar
-                                </button>
-                            </div>
-                        </form>
-                    )}
-                </section>
-
-                {/* PERFIL */}
-                <aside className="user-panel">
-                    <div className="user-avatar">
-                        {user?.photoURL ? (
-                            <img
-                                src={user.photoURL}
-                                alt={
-                                    user.displayName ||
-                                    "Usuario"
-                                }
-                            />
-                        ) : (
-                            "👤"
-                        )}
-                    </div>
-
-                    <h2>
-                        Hola, {user?.displayName}!
-                    </h2>
-
-                    <p className="user-email">
-                        {user?.email}
-                    </p>
-
-                    <div className="user-stats">
-                        <div>
-                            <strong>
-                                {tasks.length}
-                            </strong>
-
-                            <span>
-                                Tareas
-                            </span>
-                        </div>
-
-                        <div>
-                            <strong>
-                                {
-                                    tasks.filter(
-                                        (task) =>
-                                            task.completed
-                                    ).length
-                                }
-                            </strong>
-
-                            <span>
-                                Completadas
-                            </span>
-                        </div>
-
-                        <div>
-                            <strong>
-                                {
-                                    tasks.filter(
-                                        (task) =>
-                                            !task.completed
-                                    ).length
-                                }
-                            </strong>
-
-                            <span>
-                                Pendientes
-                            </span>
-                        </div>
-                    </div>
-
-                    <button
-                        className="logout-button"
-                        onClick={logout}
-                    >
-                        Cerrar sesión
-                    </button>
-
-                    <button
-                        className="delete-account-button"
-                        onClick={handleDeleteAccount}
-                    >
-                        Eliminar cuenta
-                    </button>
-                </aside>
-            </section>
         </main>
     );
 }

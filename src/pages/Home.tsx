@@ -9,14 +9,29 @@ function Home() {
                     <span>Taskify</span>
                 </Link>
 
-                <Link to="/login" className="login-link">
-                    Iniciar sesión
-                </Link>
+                <div className="home-header-actions">
+                    <Link
+                        to="/info"
+                        className="info-button"
+                        aria-label="Información sobre Taskify"
+                    >
+                        ⓘ
+                    </Link>
+
+                    <Link
+                        to="/login"
+                        className="login-link"
+                    >
+                        Iniciar sesión
+                    </Link>
+                </div>
             </header>
 
             <section className="hero">
                 <div className="hero-content">
-                    <p className="hero-label">ORGANIZÁ TU DÍA</p>
+                    <p className="hero-label">
+                        ORGANIZÁ TU DÍA
+                    </p>
 
                     <h1>
                         Tus tareas.
@@ -31,12 +46,19 @@ function Home() {
                         y accesible desde cualquier dispositivo.
                     </p>
 
-                    <Link to="/register" className="hero-button">
+                    <Link
+                        to="/register"
+                        className="hero-button"
+                    >
                         Crear cuenta
                     </Link>
                 </div>
+
                 <div className="hero-logo">
-                    <img src="/logo.png" alt="Taskify" />
+                    <img
+                        src="/logo.png"
+                        alt="Taskify"
+                    />
                 </div>
             </section>
         </main>

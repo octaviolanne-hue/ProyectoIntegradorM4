@@ -16,6 +16,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     padding: 1.25rem 1.5rem;
 }
 
@@ -34,6 +35,7 @@
 .auth-logo img {
     width: 32px;
     height: 32px;
+
     object-fit: contain;
 }
 
@@ -41,9 +43,16 @@
     font-size: 1.4rem;
 }
 
+.home-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .login-link {
     color: #ffffff;
     text-decoration: none;
+
     font-size: 0.95rem;
     font-weight: 600;
 
@@ -52,6 +61,40 @@
 
 .login-link:hover {
     color: #1db954;
+}
+
+
+/* =========================
+   INFO BUTTON
+   ========================= */
+
+.info-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2.25rem;
+    height: 2.25rem;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 1.4rem;
+
+    border: 1px solid #444444;
+    border-radius: 50%;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.info-button:hover {
+    color: #1db954;
+    border-color: #1db954;
+
+    transform: scale(1.05);
 }
 
 
@@ -74,34 +117,34 @@
 }
 
 .hero-label {
+    margin-bottom: 1.25rem;
+
     color: #1db954;
 
     font-size: 0.75rem;
     font-weight: 700;
 
     letter-spacing: 0.12rem;
-
-    margin-bottom: 1.25rem;
 }
 
 .hero h1 {
+    margin-bottom: 1.75rem;
+
     font-size: clamp(3rem, 15vw, 7rem);
 
     line-height: 0.95;
     letter-spacing: -0.05em;
-
-    margin-bottom: 1.75rem;
 }
 
 .hero-description {
     max-width: 550px;
 
+    margin-bottom: 2rem;
+
     color: #b3b3b3;
 
     font-size: 1rem;
     line-height: 1.6;
-
-    margin-bottom: 2rem;
 }
 
 .hero-button {
@@ -124,11 +167,12 @@
 
 .hero-button:hover {
     background-color: #1ed760;
+
     transform: scale(1.04);
 }
 
 
-/* Logo grande del Hero */
+/* Logo grande del hero */
 /* Oculto en móvil y tablet */
 
 .hero-logo {
@@ -143,12 +187,12 @@
 .auth-page {
     min-height: 100vh;
 
-    background-color: #121212;
-
     display: flex;
     justify-content: center;
 
     padding: 2rem 1.5rem;
+
+    background-color: #121212;
 }
 
 .auth-container {
@@ -159,18 +203,18 @@
 .auth-logo {
     justify-content: center;
 
-    font-size: 1.5rem;
-
     margin-bottom: 4rem;
+
+    font-size: 1.5rem;
 }
 
 .auth-content h1 {
-    font-size: 2rem;
-
-    line-height: 1.2;
-    text-align: center;
-
     margin-bottom: 2rem;
+
+    font-size: 2rem;
+    line-height: 1.2;
+
+    text-align: center;
 }
 
 .auth-form {
@@ -224,7 +268,6 @@
     min-height: 48px;
 
     margin-top: 0.75rem;
-
     padding: 0.9rem 1rem;
 
     border: none;
@@ -245,17 +288,17 @@
 
 .auth-button:hover {
     background-color: #1ed760;
+
     transform: scale(1.02);
 }
 
 .auth-footer {
     margin-top: 2rem;
 
-    text-align: center;
-
     color: #b3b3b3;
 
     font-size: 0.9rem;
+    text-align: center;
 }
 
 .auth-footer a {
@@ -271,12 +314,22 @@
     color: #1db954;
 }
 
+
+/* =========================
+   TASKS PAGE
+   ========================= */
+
 .tasks-page {
     min-height: 100vh;
 
     background-color: #121212;
     color: #ffffff;
 }
+
+
+/* =========================
+   TASKS NAVBAR - MOBILE
+   ========================= */
 
 .tasks-navbar {
     display: flex;
@@ -297,89 +350,19 @@
     z-index: 50;
 }
 
-
-/* Logo */
-
-.tasks-logo {
-    display: flex;
-    align-items: center;
-
-    gap: 0.6rem;
-
-    color: #ffffff;
-
+.tasks-navbar .logo {
     font-size: 1.3rem;
-    font-weight: 700;
 }
 
-.tasks-logo img {
+.tasks-navbar .logo img {
     width: 32px;
     height: 32px;
-
-    object-fit: contain;
 }
 
 
-/* Home */
-
-.tasks-navbar .home-button {
-    display: flex;
-    align-items: center;
-
-    gap: 0.4rem;
-
-    padding: 0.6rem 0.9rem;
-
-    border: none;
-    border-radius: 999px;
-
-    background-color: #242424;
-    color: #ffffff;
-
-    font-size: 0.9rem;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.tasks-navbar .home-button:hover {
-    background-color: #303030;
-
-    transform: scale(1.03);
-}
-
-
-/* Usuario */
-
-.tasks-navbar .user-button {
-    width: 40px;
-    height: 40px;
-
-    border: none;
-    border-radius: 50%;
-
-    background-color: #242424;
-    color: #ffffff;
-
-    font-size: 1rem;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.tasks-navbar .user-button:hover {
-    background-color: #303030;
-
-    transform: scale(1.05);
-}
-
+/* =========================
+   TASKS LAYOUT - MOBILE
+   ========================= */
 
 .tasks-layout {
     display: flex;
@@ -398,6 +381,11 @@
     border: 1px solid #242424;
     border-radius: 12px;
 }
+
+
+/* =========================
+   TASK LIBRARY
+   ========================= */
 
 .tasks-library {
     padding: 1.25rem;
@@ -452,10 +440,15 @@
     transform: translateX(2px);
 }
 
-.task-item:first-child {
+.task-item.selected {
     background-color: #242424;
     color: #ffffff;
 }
+
+
+/* =========================
+   TASK DETAILS
+   ========================= */
 
 .task-details {
     min-height: 320px;
@@ -476,7 +469,6 @@
     font-weight: 700;
 
     letter-spacing: 0.12rem;
-
     text-transform: uppercase;
 }
 
@@ -486,7 +478,6 @@
     font-size: 2rem;
 
     line-height: 1;
-
     letter-spacing: -0.04em;
 }
 
@@ -498,7 +489,6 @@
     color: #b3b3b3;
 
     font-size: 0.95rem;
-
     line-height: 1.6;
 }
 
@@ -509,7 +499,6 @@
     gap: 0.3rem;
 
     margin-bottom: 2rem;
-
     padding: 1rem 1.2rem;
 
     background-color: #202020;
@@ -530,9 +519,12 @@
 }
 
 
+/* =========================
+   TASK ACTIONS
+   ========================= */
+
 .task-actions {
     display: flex;
-
     flex-wrap: wrap;
 
     gap: 0.6rem;
@@ -562,15 +554,17 @@
 
 /* Nueva tarea */
 
-/* Nueva tarea */
-
 .new-task-button {
+    padding: 0.75rem 1.25rem;
+
     border: none;
+    border-radius: 0.5rem;
+
     background-color: #1db954;
     color: #000000;
+
     font-weight: 700;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
+
     cursor: pointer;
 
     transition:
@@ -581,7 +575,9 @@
 
 .new-task-button:hover {
     background-color: #1ed760;
+
     transform: scale(1.04);
+
     box-shadow: 0 0 18px rgba(29, 185, 84, 0.25);
 }
 
@@ -615,6 +611,50 @@
 }
 
 
+/* Completar */
+
+.complete-task-button {
+    border: none;
+
+    background-color: #1db954;
+    color: #000000;
+
+    font-weight: 700;
+
+    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0);
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.complete-task-button:hover {
+    background-color: #1ed760;
+
+    transform: scale(1.04);
+
+    box-shadow: 0 0 18px rgba(29, 185, 84, 0.25);
+}
+
+.complete-task-button.completed {
+    background-color: #242424;
+    color: #1db954;
+
+    border: 1px solid #1db954;
+}
+
+.complete-task-button.completed:hover {
+    background-color: #303030;
+
+    box-shadow: 0 0 14px rgba(29, 185, 84, 0.15);
+}
+
+
+/* =========================
+   USER PANEL
+   ========================= */
+
 .user-panel {
     padding: 1.5rem;
 
@@ -630,8 +670,8 @@
     align-items: center;
     justify-content: center;
 
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
 
     margin-bottom: 1rem;
 
@@ -639,7 +679,16 @@
 
     background-color: #242424;
 
-    font-size: 1.5rem;
+    font-size: 2rem;
+
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
 }
 
 .user-panel h2 {
@@ -692,11 +741,9 @@
 
 .logout-button {
     width: 100%;
-
     min-height: 42px;
 
     border: 1px solid #535353;
-
     border-radius: 999px;
 
     background-color: transparent;
@@ -718,9 +765,45 @@
     border-color: #777777;
 }
 
+
+/* Eliminar cuenta */
+
+.delete-account-button {
+    width: 100%;
+
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+
+    border: none;
+    border-radius: 0.5rem;
+
+    background-color: #d32f2f;
+    color: #ffffff;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.delete-account-button:hover {
+    background-color: #b71c1c;
+
+    transform: scale(1.02);
+}
+
+
+/* =========================
+   TASK FORM
+   ========================= */
+
 .task-form {
     display: flex;
     flex-direction: column;
+
     gap: 1.25rem;
 }
 
@@ -747,71 +830,36 @@
     border-color: #ffffff;
 }
 
-.complete-task-button {
-    border: none;
 
-    background-color: #1db954;
-    color: #000000;
+/* =========================
+   EMPTY TASKS
+   ========================= */
 
-    font-weight: 700;
+.empty-tasks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0);
+    gap: 1rem;
 
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    text-align: center;
 }
 
-.complete-task-button:hover {
-    background-color: #1ed760;
 
-    transform: scale(1.04);
-
-    box-shadow: 0 0 18px rgba(29, 185, 84, 0.25);
-}
-
-.complete-task-button.completed {
-    background-color: #242424;
-    color: #1db954;
-
-    border: 1px solid #1db954;
-}
-
-.complete-task-button.completed:hover {
-    background-color: #303030;
-
-    box-shadow: 0 0 14px rgba(29, 185, 84, 0.15);
-}
-
-.delete-account-button {
-    width: 100%;
-    margin-top: 0.75rem;
-    border: none;
-    background-color: #d32f2f;
-    color: white;
-    font-weight: 700;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.delete-account-button:hover {
-    background-color: #b71c1c;
-    transform: scale(1.02);
-}
+/* =========================
+   GOOGLE BUTTON
+   ========================= */
 
 .google-button {
     width: 100%;
+
     margin-top: 0.75rem;
     padding: 0.75rem 1rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
     gap: 0.75rem;
 
     border: 1px solid #3a3a3a;
@@ -833,42 +881,156 @@
 
 .google-button:hover {
     background-color: #303030;
+
     border-color: #555555;
+
     transform: scale(1.02);
 }
 
 .google-icon {
-    font-weight: 700;
     font-size: 1.1rem;
+    font-weight: 700;
 }
 
-.user-avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background-color: #242424;
 
+/* =========================
+   INFO PAGE
+   ========================= */
+
+.info-page {
+    min-height: 100vh;
+
+    padding: 1rem 1.25rem;
+
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.info-header {
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 2rem;
-    overflow: hidden;
+    justify-content: flex-start;
 }
 
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.info-home-button {
+    padding: 0.6rem 1rem;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    border: 1px solid #444444;
+    border-radius: 0.5rem;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.empty-tasks {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+.info-home-button:hover {
+    color: #1db954;
+
+    border-color: #1db954;
+}
+
+.info-content {
+    max-width: 700px;
+
+    margin: 4rem auto 0;
+
     text-align: center;
 }
+
+.info-logo {
+    width: 5rem;
+    height: 5rem;
+
+    object-fit: contain;
+}
+
+.info-label {
+    margin-top: 2rem;
+
+    color: #1db954;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    letter-spacing: 0.15rem;
+}
+
+.info-content h1 {
+    margin: 0.5rem 0 1rem;
+
+    font-size: 2.5rem;
+}
+
+.info-description {
+    color: #b3b3b3;
+
+    line-height: 1.6;
+}
+
+.info-section {
+    margin-top: 2rem;
+}
+
+.info-section h2 {
+    font-size: 1.2rem;
+}
+
+.info-section p {
+    color: #b3b3b3;
+}
+
+.info-version {
+    margin-top: 3rem;
+
+    color: #666666;
+
+    font-size: 0.85rem;
+}
+
+.send-summary-button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    border: none;
+    border-radius: 999px;
+
+    background-color: #1db954;
+    color: #000000;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.send-summary-button:hover {
+    background-color: #1ed760;
+    transform: translateY(-1px);
+}
+
+.send-summary-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.summary-message {
+    margin: 0.75rem 0 0;
+    text-align: center;
+
+    color: #1db954;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
 
 /* =========================
    TABLET
@@ -915,9 +1077,9 @@
     }
 
     .tasks-layout {
-        padding: 1.5rem;
-
         gap: 1.25rem;
+
+        padding: 1.5rem;
     }
 
     .tasks-library {
@@ -931,6 +1093,17 @@
     .user-panel {
         padding: 2rem;
     }
+
+
+    /* Info */
+
+    .info-page {
+        padding: 2rem 3rem;
+    }
+
+    .info-content {
+        margin-top: 5rem;
+    }
 }
 
 
@@ -939,6 +1112,8 @@
    ========================= */
 
 @media (min-width: 1024px) {
+
+    /* Home */
 
     .home-header {
         padding: 2rem 4rem;
@@ -960,9 +1135,6 @@
         font-size: 1.2rem;
     }
 
-
-    /* Logo grande */
-
     .hero-logo {
         display: flex;
 
@@ -981,30 +1153,18 @@
     }
 
 
-    /* =========================
-       AUTH
-       ========================= */
+    /* Auth */
 
     .auth-page {
         padding-top: 4rem;
     }
 
 
-    /* =========================
-       TASKS
-       ========================= */
+    /* Tasks */
 
     .tasks-navbar {
-        height: 80px;
-
         padding: 0 2.5rem;
     }
-
-
-    /*
-       Los 3 bloques pasan a estar
-       horizontalmente
-    */
 
     .tasks-layout {
         display: grid;
@@ -1019,11 +1179,6 @@
         padding: 1rem;
     }
 
-
-    /* =========================
-       BIBLIOTECA
-       ========================= */
-
     .tasks-library {
         min-height: calc(100vh - 112px);
 
@@ -1033,11 +1188,6 @@
     .tasks-library h2 {
         font-size: 1.25rem;
     }
-
-
-    /* =========================
-       DETALLE
-       ========================= */
 
     .task-details {
         min-height: calc(100vh - 112px);
@@ -1053,15 +1203,17 @@
         font-size: 1.05rem;
     }
 
-
-    /* =========================
-       PERFIL
-       ========================= */
-
     .user-panel {
         min-height: calc(100vh - 112px);
 
         padding: 1.5rem;
+    }
+
+
+    /* Info */
+
+    .info-content {
+        margin-top: 6rem;
     }
 }
 

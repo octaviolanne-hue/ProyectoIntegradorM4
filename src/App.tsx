@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Tasks from './pages/Tasks'
+import Info from "./pages/Info";
 import ProtectedRoute from './routes/ProtectedRoute'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/info" element={<Info />} />
       </Routes>
     </div>
   )
