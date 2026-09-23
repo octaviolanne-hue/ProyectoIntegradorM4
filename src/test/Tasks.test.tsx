@@ -437,4 +437,17 @@ describe("Tasks", () => {
             )
         );
     });
+    it("muestra un error cuando no se pueden cargar las tareas", async () => {
+        mocks.getTasks.mockRejectedValue(
+            new Error("Error de Firebase")
+        );
+
+        render(<Tasks />);
+
+        expect(
+            await screen.findByText(
+                "⚠️ No se pudieron cargar las tareas."
+            )
+        ).toBeInTheDocument();
+    });
 });

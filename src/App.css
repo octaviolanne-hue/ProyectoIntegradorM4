@@ -134,6 +134,8 @@
 
     line-height: 0.95;
     letter-spacing: -0.05em;
+
+    overflow-wrap: anywhere;
 }
 
 .hero-description {
@@ -445,6 +447,14 @@
     color: #ffffff;
 }
 
+.task-item span:last-child {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 
 /* =========================
    TASK DETAILS
@@ -479,6 +489,8 @@
 
     line-height: 1;
     letter-spacing: -0.04em;
+
+    overflow-wrap: anywhere;
 }
 
 .task-description {
@@ -490,6 +502,8 @@
 
     font-size: 0.95rem;
     line-height: 1.6;
+
+    overflow-wrap: anywhere;
 }
 
 .task-status {
@@ -531,7 +545,7 @@
 }
 
 .task-actions button {
-    min-height: 42px;
+    min-height: 44px;
 
     padding: 0.7rem 1rem;
 
@@ -695,14 +709,20 @@
     margin-bottom: 0.4rem;
 
     font-size: 1.2rem;
+
+    overflow-wrap: anywhere;
 }
 
 .user-email {
+    max-width: 100%;
+
     margin-bottom: 1.5rem;
 
     color: #a7a7a7;
 
     font-size: 0.85rem;
+
+    overflow-wrap: anywhere;
 }
 
 
@@ -741,7 +761,7 @@
 
 .logout-button {
     width: 100%;
-    min-height: 42px;
+    min-height: 44px;
 
     border: 1px solid #535353;
     border-radius: 999px;
@@ -809,6 +829,7 @@
 
 .task-form textarea {
     width: 100%;
+    min-height: 120px;
 
     padding: 0.85rem 1rem;
 
@@ -961,6 +982,8 @@
     margin: 0.5rem 0 1rem;
 
     font-size: 2.5rem;
+
+    overflow-wrap: anywhere;
 }
 
 .info-description {
@@ -979,6 +1002,8 @@
 
 .info-section p {
     color: #b3b3b3;
+
+    overflow-wrap: anywhere;
 }
 
 .info-version {
@@ -991,7 +1016,9 @@
 
 .send-summary-button {
     width: 100%;
+
     padding: 0.75rem 1rem;
+
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 
@@ -1005,6 +1032,7 @@
     font-weight: 700;
 
     cursor: pointer;
+
     transition:
         background-color 0.2s ease,
         transform 0.2s ease,
@@ -1013,20 +1041,25 @@
 
 .send-summary-button:hover {
     background-color: #1ed760;
+
     transform: translateY(-1px);
 }
 
 .send-summary-button:disabled {
     opacity: 0.6;
+
     cursor: not-allowed;
+
     transform: none;
 }
 
 .summary-message {
     margin: 0.75rem 0 0;
+
     text-align: center;
 
     color: #1db954;
+
     font-size: 0.85rem;
     font-weight: 600;
 }
@@ -1244,4 +1277,22 @@
     .task-details h1 {
         font-size: 3.5rem;
     }
+}
+
+
+/* =========================
+   SMALL MOBILE
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .task-actions {
+        flex-direction: column;
+    }
+
+    .task-actions button {
+        width: 100%;
+        min-height: 44px;
+    }
+
 }
