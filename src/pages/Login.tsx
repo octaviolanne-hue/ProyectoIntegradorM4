@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, loginWithGoogle } from "../services/auth";
+
+import {
+    loginWithEmail,
+    loginWithGoogle,
+    getAuthErrorMessage,
+} from "../services/auth";
 
 function Login() {
     const navigate = useNavigate();
@@ -15,45 +19,72 @@ function Login() {
     ) => {
         event.preventDefault();
 
+        setError("");
+
         try {
-            await signInWithEmailAndPassword(
-                auth,
+            await loginWithEmail(
                 email,
                 password
             );
 
             navigate("/tasks");
+
         } catch (error) {
-            setError("El email o la contraseña son incorrectos.");
+            setError(
+                getAuthErrorMessage(error)
+            );
         }
     };
 
     const handleGoogleLogin = async () => {
+        setError("");
+
         try {
             await loginWithGoogle();
+
             navigate("/tasks");
+
         } catch (error) {
-            setError("No se pudo iniciar sesión con Google.");
+            setError(
+                getAuthErrorMessage(error)
+            );
         }
     };
 
     return (
         <main className="auth-page">
             <div className="auth-container">
-                <Link to="/" className="auth-logo">
-                    <img src="/logo.png" alt="Taskify" />
-                    <span>Taskify</span>
+
+                <Link
+                    to="/"
+                    className="auth-logo"
+                >
+                    <img
+                        src="/logo.png"
+                        alt="Taskify"
+                    />
+
+                    <span>
+                        Taskify
+                    </span>
                 </Link>
 
                 <div className="auth-content">
-                    <h1>Iniciar sesión</h1>
+
+                    <h1>
+                        Iniciar sesión
+                    </h1>
 
                     <form
                         className="auth-form"
                         onSubmit={handleLogin}
                     >
+
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+
+                            <label htmlFor="email">
+                                Email
+                            </label>
 
                             <input
                                 type="email"
@@ -62,13 +93,17 @@ function Login() {
                                 placeholder="Tu email"
                                 value={email}
                                 onChange={(event) =>
-                                    setEmail(event.target.value)
+                                    setEmail(
+                                        event.target.value
+                                    )
                                 }
                                 required
                             />
+
                         </div>
 
                         <div className="form-group">
+
                             <label htmlFor="password">
                                 Contraseña
                             </label>
@@ -80,10 +115,13 @@ function Login() {
                                 placeholder="Tu contraseña"
                                 value={password}
                                 onChange={(event) =>
-                                    setPassword(event.target.value)
+                                    setPassword(
+                                        event.target.value
+                                    )
                                 }
                                 required
                             />
+
                         </div>
 
                         {error && (
@@ -98,23 +136,35 @@ function Login() {
                         >
                             Iniciar sesión
                         </button>
+
                         <button
                             type="button"
                             className="google-button"
-                            onClick={handleGoogleLogin}
+                            onClick={
+                                handleGoogleLogin
+                            }
                         >
-                            <span className="google-icon">G</span>
+                            <span className="google-icon">
+                                G
+                            </span>
+
                             Continuar con Google
                         </button>
+
                     </form>
 
                     <p className="auth-footer">
+
                         ¿No tenés una cuenta?{" "}
+
                         <Link to="/register">
                             Crear cuenta
                         </Link>
+
                     </p>
+
                 </div>
+
             </div>
         </main>
     );

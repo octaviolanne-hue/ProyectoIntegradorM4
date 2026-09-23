@@ -40,10 +40,14 @@ function Tasks() {
     const [isSendingSummary, setIsSendingSummary] = useState(false);
     const [summaryMessage, setSummaryMessage] = useState("");
 
+    const [errorMessage, setErrorMessage] = useState("");
+
 
     // Cargar tareas al entrar a la página
     useEffect(() => {
         const loadTasks = async () => {
+            setErrorMessage("");
+
             try {
                 const loadedTasks = await getTasks();
 
@@ -57,6 +61,10 @@ function Tasks() {
                     "Error al cargar las tareas:",
                     error
                 );
+
+                setErrorMessage(
+                    "No se pudieron cargar las tareas."
+                );
             }
         };
 
@@ -69,6 +77,8 @@ function Tasks() {
         event: React.FormEvent<HTMLFormElement>
     ) => {
         event.preventDefault();
+
+        setErrorMessage("");
 
         try {
             if (isEditing && selectedTask) {
@@ -115,12 +125,18 @@ function Tasks() {
                 "Error al guardar la tarea:",
                 error
             );
+
+            setErrorMessage(
+                "No se pudo guardar la tarea."
+            );
         }
     };
 
 
     // Mostrar formulario para crear una tarea
     const handleNewTask = () => {
+        setErrorMessage("");
+
         setTitle("");
         setDescription("");
 
@@ -134,6 +150,8 @@ function Tasks() {
         if (!selectedTask) {
             return;
         }
+
+        setErrorMessage("");
 
         setTitle(selectedTask.title);
         setDescription(selectedTask.description);
@@ -158,6 +176,8 @@ function Tasks() {
         if (!selectedTask) {
             return;
         }
+
+        setErrorMessage("");
 
         const updatedTask = {
             ...selectedTask,
@@ -187,6 +207,10 @@ function Tasks() {
                 "Error al actualizar la tarea:",
                 error
             );
+
+            setErrorMessage(
+                "No se pudo actualizar la tarea."
+            );
         }
     };
 
@@ -196,6 +220,8 @@ function Tasks() {
         if (!selectedTask) {
             return;
         }
+
+        setErrorMessage("");
 
         try {
             await deleteTask(selectedTask.id);
@@ -216,6 +242,10 @@ function Tasks() {
             console.error(
                 "Error al eliminar la tarea:",
                 error
+            );
+
+            setErrorMessage(
+                "No se pudo eliminar la tarea."
             );
         }
     };
@@ -332,6 +362,8 @@ function Tasks() {
                         selectedTask?.id ?? null
                     }
                     onSelectTask={(task) => {
+                        setErrorMessage("");
+
                         setSelectedTask(task);
                         setShowForm(false);
                         setIsEditing(false);
@@ -381,6 +413,12 @@ function Tasks() {
                 />
 
             </div>
+
+            {errorMessage && (
+                <p className="task-error">
+                    ⚠️ {errorMessage}
+                </p>
+            )}
 
         </main>
     );
